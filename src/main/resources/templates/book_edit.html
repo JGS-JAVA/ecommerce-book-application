@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유저 수정하기</title>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>책 수정하기</h1>
+<form>
+    <label>책 제목 :</label>
+    <span id="title"></span>
+
+    <label for="author">저자 :</label>
+    <input type="text" id="author">
+
+    <label for="genre">장르 :</label>
+    <input type="text" id="genre">
+
+    <label for="imagePath">표지 :</label>
+    <input type="text" id="imagePath">
+
+    <button type="button" id="editBtn">수정하기</button>
+
+</form>
+<script>
+    // 1. id 값으로 책 상세정보 불러오기 ajax
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    $.ajax({
+        url: `/api/book/${id}`,
+        method: 'GET',
+        success: function (data) {
+            // p 태그는 text 형식으로 값 넣기
+
+            $("#title").val(data.title);
+            $("#author").val(data.phone);
+            $("#genre").val(data.genre);
+            $("#imagePath").val(data.imagePath);
+        },
+        error:
+        function () {
+            alert("데이터로딩 실패")
+        }
+    })
+
+    // PUTMapping 으로 수정한 내용을 디비에 저장하기 버튼
+    $("#editBtn").click(function (event) {
+      //  event.preventDefault();
+   // put 메서드로 회원정보 수정
+        $.ajax({
+            url: `/api/book/edit/${id}`,
+            method: 'PUT',
+            contentType: "application/json",
+            data:JSON.stringify({
+                email: $("#title").val(), // input 값 가져와 email 이란 이름으로 작성값 전달
+                phone: $("#author").val(),
+                city: $("#genre").val(),
+                street: $("#imagePath").val()
+            }),
+            success: function (data) { // contentType 으로 데이터전송 성공
+
+              alert("정보수정 성공");
+              window.location.href=`/book?id=${id}`; // 유저상세보기 주소로 이동
+            },
+            error:
+                function () { // 컨트롤러엣 데이터를 서비스로 전달시 문제발생
+                    alert("수정 실패")
+                }
+        })
+
+    })
+</script>
+
+</body>
+</html>

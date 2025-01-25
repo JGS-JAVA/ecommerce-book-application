@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>책 추가</title>
+    <link href="/favicon.ico" rel="icon">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <link href="/styles.css" rel="stylesheet">
+</head>
+<body>
+<h1>책 추가</h1>
+<form id="book-form">
+    <label for="title">제목:</label>
+    <input type="text" id="title" name="title" required>
+    <label for="author">저자:</label>
+    <input type="text" id="author" name="author" required>
+    <label for="genre">장르:</label>
+    <input type="text" id="genre" name="genre" required>
+    <label for="imagePath">표지:</label>
+    <input type="text" id="imagePath" name="imagePath" value="https://via.placeholder.com/150" required>
+
+    <button type="submit">추가</button>
+</form>
+
+<script>
+    $.ajax({
+        url: "/api/book/insert",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            title: $("#title").val(),
+            price: $("#author").val(),
+            description: $("#genre").val(),
+            image: $("#image").val()
+        }),
+        success: function (data) {
+            alert("책 등록 성공입니다.");
+            window.location.href = "books"; // 책 목록으로 이동하기
+        },
+        error: function () {
+            alert("데이터베이스에 저장을 실패했습니다. 다시 진행해주세요.");
+        }
+    });
+</script>
+</body>
+</html>

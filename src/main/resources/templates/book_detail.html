@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>책 상세보기</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+<h1>책 상세 정보</h1>
+<div id="book-detail-container"></div>
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    $.ajax({
+        url: `/api/books/${id}`,
+        method: 'GET',
+        success: function (data) {
+            $("#bookDetail").html(`
+            <h1>${data.title}</h1>
+            <h1>${data.author}</h1>
+            <h1>${data.genre}</h1>
+            <h1>${data.imagePath}</h1>
+            <!--"/books/edit?id= => 뷰 컨트롤러에서 book-edit.html 템플릿과 연결하는 주소-->
+            <a href="/user/edit?id=${data.id}">책 정보 수정</a>
+            `);
+        }
+    })
+</script>
+</body>
+</html>
