@@ -9,6 +9,35 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
+<h1>책 목록</h1>
+<div id="book-container"></div>
 
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/api/books',
+            method: 'GET',
+            success:
+                function (data) {
+                    $.each(data, function (key, value) {
+                        console.log("key : ", key, "value : ", value);
+                        $('#book-container').append(
+                            '<div class="card">' +
+                            '<h3>' + value.title + '</h3>' +
+                            '<h3>' + value.author + '</h3>' +
+                            '<h3>' + value.genre + '</h3>' +
+                            '<img>' + value.imagePath +
+
+
+                            '</div>')
+                    })
+                },
+            error:
+                function () {
+                    $('#book-container').append('<p>서버에서 데이터를 가져올 수 없습니다.</p>')
+                }
+        })
+    })
+</script>
 </body>
 </html>

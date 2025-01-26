@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>유저 수정하기</title>
+    <title>책 수정하기</title>
     <link rel="icon" href="/favicon.ico">
     <link rel="stylesheet" href="/css/styles.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -34,8 +34,8 @@
         url: `/api/book/${id}`,
         method: 'GET',
         success: function (data) {
+            // input 태그는 val 형식으로 값 넣기
             // p 태그는 text 형식으로 값 넣기
-
             $("#title").val(data.title);
             $("#author").val(data.phone);
             $("#genre").val(data.genre);
@@ -56,10 +56,10 @@
             method: 'PUT',
             contentType: "application/json",
             data:JSON.stringify({
-                email: $("#title").val(), // input 값 가져와 email 이란 이름으로 작성값 전달
-                phone: $("#author").val(),
-                city: $("#genre").val(),
-                street: $("#imagePath").val()
+                title: $("#title").val(), // input 값 가져와 email 이란 이름으로 작성값 전달
+                author: $("#author").val(),
+                genre: $("#genre").val(),
+                imagePath: $("#imagePath").val()
             }),
             success: function (data) { // contentType 으로 데이터전송 성공
 
